@@ -4,6 +4,8 @@ import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./utils/db.js";
 import userRoute from "./routes/user.route.js";
+import companyRoute from "./routes/company.route.js";
+import jobRoute from "./routes/job.route.js";
 dotenv.config(); //dot env file
 
 const app = express();
@@ -21,6 +23,8 @@ app.use(cors(corsOptions));
 
 //apis here
 app.use("/api/v1/user", userRoute);
+app.use("/api/v1/company", companyRoute);
+app.use("/api/v1/job", jobRoute);
 
 const PORT = process.env.PORT || 3000;
 

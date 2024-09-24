@@ -4,18 +4,16 @@ const companySchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
+      unique: true,
     },
     description: {
       type: String,
-      required: true,
     },
     webiste: {
       type: String,
-      required: true,
     },
     logo: {
       type: String, //url to
-      required: true,
     },
     userId: {
       type: mongoose.Schema.Types.ObjectId,
