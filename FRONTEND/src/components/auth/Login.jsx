@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "../shared/Navbar";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
@@ -6,12 +6,32 @@ import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { Button, buttonVariants } from "../ui/button";
 import { Link } from "react-router-dom";
 export default function Login() {
+  const [input, setInput] = useState({
+    email: "",
+    password: "",
+    role: "",
+  });
+  const changeEventHandler = (e) => {
+    setInput({
+      ...input,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div>
       <Navbar />
       <div className="flex  items-center justify-center max-w-7xl mx-auto">
         <form
-          action=""
+          onSubmit={submitHandler}
           className="w-1/2 border border-grey-200 rounded-md p-4 my-10"
         >
           <h1 className="font-bold text-xl mb-5">Signup</h1>
@@ -21,6 +41,9 @@ export default function Login() {
             <Input
               type="email"
               placeholder="Enter email"
+              value={input.email}
+              name="email"
+              onChange={changeEventHandler}
               className="rounded-xl border-2 border-blue-300"
             ></Input>
           </div>
@@ -30,19 +53,35 @@ export default function Login() {
             <Input
               type="password"
               placeholder="Enter password"
+              value={input.password}
+              name="password"
+              onChange={changeEventHandler}
               className="rounded-xl border-2 border-blue-300"
             ></Input>
           </div>
           <div className="flex items-center">
             <RadioGroup className="flex items-center gap-4 my-5">
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="option-one" id="option-one" />
-                <Label htmlFor="option-one">Student </Label>
+                <Input
+                  type="radio"
+                  name="role"
+                  value="student"
+                  checked={input.role === "student"}
+                  onChange={changeEventHandler}
+                  className="cursor-pointer"
+                />
+                <Label htmlFor="r1">Student</Label>
               </div>
-
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="option-two" id="option-two" />
-                <Label htmlFor="option-two">Recruiter</Label>
+                <Input
+                  type="radio"
+                  name="role"
+                  value="recruiter"
+                  checked={input.role === "recruiter"}
+                  onChange={changeEventHandler}
+                  className="cursor-pointer"
+                />
+                <Label htmlFor="r2">Recruiter</Label>
               </div>
             </RadioGroup>
           </div>

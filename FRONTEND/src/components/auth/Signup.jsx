@@ -1,17 +1,71 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "../shared/Navbar";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { Button, buttonVariants } from "../ui/button";
 import { Link } from "react-router-dom";
+import { USER_API_END_POINT } from "../utils/constant";
+import { toast } from "sonner";
 export default function Signup() {
+  const [input, setInput] = useState({
+    fullName: "",
+    email: "",
+    phoneNumber: "",
+    password: "",
+    role: "",
+    file: "",
+  });
+  const navigate = useNavigate();
+  const changeEventHandler = (e) => {
+    setInput({
+      ...input,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const chnageFileHandler = (e) => {
+    setInput({
+      ...input,
+      file: e.target.files?.[0],
+    });
+  };
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("fullName", input.fullName);
+    formData.append("email", input.email);
+    formData.append("phoneNumber", input.phoneNumber);
+    formData.append("password", input.password);
+    formData.append("role", input.role);
+    if (input.file) {
+      formData.append("file", input.file);
+    }
+    try {
+      const res = await axios.post(
+        `${USER_API_END_POINT / register}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          withCredentials: true,
+        }
+      );
+      if (res.data.success) {
+        toast.success("res.data.message");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div>
       <Navbar />
       <div className="flex  items-center justify-center max-w-7xl mx-auto">
         <form
-          action=""
+          onSubmit={submitHandler}
           className="w-1/2 border border-grey-200 rounded-md p-4 my-10"
         >
           <h1 className="font-bold text-xl mb-5">Signup</h1>
@@ -20,6 +74,9 @@ export default function Signup() {
             <Input
               type="text"
               placeholder="Enter fullname"
+              value={input.fullName}
+              name="fullName"
+              onChange={changeEventHandler}
               className="rounded-xl border-2 border-blue-300"
             ></Input>
           </div>
@@ -28,6 +85,9 @@ export default function Signup() {
             <Input
               type="email"
               placeholder="Enter email"
+              value={input.email}
+              name="email"
+              onChange={changeEventHandler}
               className="rounded-xl border-2 border-blue-300"
             ></Input>
           </div>
@@ -36,6 +96,9 @@ export default function Signup() {
             <Input
               type="text"
               placeholder="Enter Phone Number"
+              value={input.phoneNumber}
+              name="phoneNumber"
+              onChange={changeEventHandler}
               className="rounded-xl border-2 border-blue-300"
             ></Input>
           </div>
@@ -44,19 +107,35 @@ export default function Signup() {
             <Input
               type="password"
               placeholder="Enter password"
+              value={input.password}
+              name="password"
+              onChange={changeEventHandler}
               className="rounded-xl border-2 border-blue-300"
             ></Input>
           </div>
           <div className="flex items-center">
             <RadioGroup className="flex items-center gap-4 my-5">
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="option-one" id="option-one" />
-                <Label htmlFor="option-one">Student </Label>
+                <Input
+                  type="radio"
+                  name="role"
+                  value="student"
+                  checked={input.role === "student"}
+                  onChange={changeEventHandler}
+                  className="cursor-pointer"
+                />
+                <Label htmlFor="r1">Student</Label>
               </div>
-
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="option-two" id="option-two" />
-                <Label htmlFor="option-two">Recruiter</Label>
+                <Input
+                  type="radio"
+                  name="role"
+                  value="recruiter"
+                  checked={input.role === "recruiter"}
+                  onChange={changeEventHandler}
+                  className="cursor-pointer"
+                />
+                <Label htmlFor="r2">Recruiter</Label>
               </div>
             </RadioGroup>
           </div>
@@ -65,6 +144,7 @@ export default function Signup() {
             <Input
               accept="image/*"
               type="file"
+              onChange={chnageFileHandler}
               className="cursor-pointer rounded-xl border-2 border-blue-300"
             ></Input>
           </div>
