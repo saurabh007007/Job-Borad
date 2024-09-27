@@ -5,16 +5,17 @@ import jwt from "jsonwebtoken";
 export const register = async (req, res) => {
   try {
     const { fullName, email, phoneNumber, password, role } = req.body;
+    console.log(fullName, email, phoneNumber, password, role);
     if (!fullName || !email || !phoneNumber || !password || !role) {
       return res
         .status(400)
-        .json({ message: "All fields are required", Success: false });
+        .json({ message: "All fields are required", success: false });
     }
     const user = await User.findOne({ email });
     if (user) {
       return res
         .status(400)
-        .json({ message: "User already exists", Success: false });
+        .json({ message: "User already exists", success: false });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -27,7 +28,7 @@ export const register = async (req, res) => {
     });
     return res
       .status(200)
-      .json({ message: "User registered successfully", Success: true });
+      .json({ message: "User registered successfully", success: true });
   } catch (err) {
     console.log(err);
   }
@@ -39,25 +40,25 @@ export const login = async (req, res) => {
     if (!email || !password || !role) {
       return res
         .status(400)
-        .json({ message: "All fields are required", Success: false });
+        .json({ message: "All fields are required", success: false });
     }
     let user = await User.findOne({ email });
     if (!user) {
       return res
         .status(400)
-        .json({ message: "User does not exist", Success: false });
+        .json({ message: "User does not exist", success: false });
     }
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
     if (!isPasswordCorrect) {
       return res
         .status(400)
-        .json({ message: "Invalid credentials", Success: false });
+        .json({ message: "Invalid credentials", success: false });
     }
     //check role correct or not
     if (!role === user.role) {
       return res
         .status(400)
-        .json({ message: "Does not exist with current role", Success: false });
+        .json({ message: "Does not exist with current role", success: false });
     }
     const tokenData = {
       userId: user._id,
@@ -80,7 +81,7 @@ export const login = async (req, res) => {
         httpOnly: true,
         sameSite: "strict",
       })
-      .json({ message: `Welcome back ${user.fullName} `, Success: true });
+      .json({ message: `Welcome back ${user.fullName} `, success: true });
   } catch (err) {
     console.log(err);
   }
@@ -113,7 +114,7 @@ export const updateProfile = async (req, res) => {
     if (!user) {
       return res
         .status(400)
-        .json({ message: "User does not exist", Success: false });
+        .json({ message: "User does not exist", success: false });
     }
     ////updating the data set
     if (fullName) user.fullName = fullName;
@@ -136,7 +137,7 @@ export const updateProfile = async (req, res) => {
     };
     return res
       .status(200)
-      .json({ message: "Profile updated successfully", user, Success: true });
+      .json({ message: "Profile updated successfully", user, success: true });
   } catch (err) {
     console.log(err);
   }
