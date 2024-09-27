@@ -3,6 +3,8 @@ import Navbar from "../shared/Navbar";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
+import { Button, buttonVariants } from "../ui/button";
+import { Link } from "react-router-dom";
 export default function Signup() {
   return (
     <div>
@@ -14,20 +16,36 @@ export default function Signup() {
         >
           <h1 className="font-bold text-xl mb-5">Signup</h1>
           <div className="my-2">
-            <Label> Full Name</Label>
-            <Input type="text" placeholder="Enter fullname"></Input>
+            <Label className="font-semibold"> Full Name</Label>
+            <Input
+              type="text"
+              placeholder="Enter fullname"
+              className="rounded-xl border-2 border-blue-300"
+            ></Input>
           </div>
           <div className="my-2">
-            <Label>Email</Label>
-            <Input type="email" placeholder="Enter email"></Input>
+            <Label className="font-semibold">Email</Label>
+            <Input
+              type="email"
+              placeholder="Enter email"
+              className="rounded-xl border-2 border-blue-300"
+            ></Input>
           </div>
           <div className="my-2">
-            <Label> Phone Number</Label>
-            <Input type="text" placeholder="Enter Phone Number"></Input>
+            <Label className="font-semibold"> Phone Number</Label>
+            <Input
+              type="text"
+              placeholder="Enter Phone Number"
+              className="rounded-xl border-2 border-blue-300"
+            ></Input>
           </div>
           <div className="my-2">
-            <Label> Password</Label>
-            <Input type="password" placeholder="Enter password"></Input>
+            <Label className="font-semibold"> Password</Label>
+            <Input
+              type="password"
+              placeholder="Enter password"
+              className="rounded-xl border-2 border-blue-300"
+            ></Input>
           </div>
           <div className="flex items-center">
             <RadioGroup className="flex items-center gap-4 my-5">
@@ -42,6 +60,26 @@ export default function Signup() {
               </div>
             </RadioGroup>
           </div>
+          <div className="flex items-center gap-2">
+            <Label>Profile</Label>
+            <Input
+              accept="image/*"
+              type="file"
+              className="cursor-pointer rounded-xl border-2 border-blue-300"
+            ></Input>
+          </div>
+          <Button
+            type="submit"
+            className="w-full my-4 bg-red-500 text-white rounded-xl hover:bg-blue-600"
+          >
+            Signup
+          </Button>
+          <span className="text-sm">
+            Already have an account?
+            <Link to="/login" className="text-blue-600">
+              Login
+            </Link>
+          </span>
         </form>
       </div>
     </div>
