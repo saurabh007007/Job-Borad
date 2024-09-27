@@ -4,9 +4,10 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { Button, buttonVariants } from "../ui/button";
-import { Link } from "react-router-dom";
-import { USER_API_END_POINT } from "../utils/constant";
+import { Link, useNavigate } from "react-router-dom";
+import { USER_API_END_POINT } from "../utils/constant.js";
 import { toast } from "sonner";
+import axios from "axios";
 export default function Signup() {
   const [input, setInput] = useState({
     fullName: "",
@@ -43,21 +44,19 @@ export default function Signup() {
       formData.append("file", input.file);
     }
     try {
-      const res = await axios.post(
-        `${USER_API_END_POINT / register}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-          withCredentials: true,
-        }
-      );
+      const res = await axios.post(`${USER_API_END_POINT}/register`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        withCredentials: true,
+      });
       if (res.data.success) {
+        navigate("/login");
         toast.success("res.data.message");
       }
     } catch (error) {
       console.log(error);
+      toast.error(error.response.data.message);
     }
   };
   return (
