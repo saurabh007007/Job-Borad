@@ -5,10 +5,13 @@ import { Label } from "../ui/label";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { Button, buttonVariants } from "../ui/button";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 import { USER_API_END_POINT } from "../utils/constant.js";
+import { setLoading } from "../../redux/authSlice.js";
 
 import axios from "axios";
+import { Loader2 } from "lucide-react";
 export default function Login() {
   const [input, setInput] = useState({
     email: "",
@@ -16,6 +19,8 @@ export default function Login() {
     role: "",
   });
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { loading } = useSelector((store) => store.auth);
 
   const changeEventHandler = (e) => {
     setInput({
@@ -27,6 +32,7 @@ export default function Login() {
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
+      dispatch(setLoading(true));
       const res = await axios.post(`${USER_API_END_POINT}/login`, input, {
         headers: {
           "Content-Type": "application/json",
@@ -43,6 +49,8 @@ export default function Login() {
     } catch (error) {
       console.log(error);
       toast(error.response.data.message);
+    } finally {
+      dispatch(setLoading(false));
     }
   };
 
@@ -105,13 +113,20 @@ export default function Login() {
               </div>
             </RadioGroup>
           </div>
+          {loading ? (
+            <Button className="w-full my-4 bg-red-500 text-white rounded-xl hover:bg-blue-600">
+              <Loader2 className="mr-2 h-4 w-4 animate-spin"></Loader2> Please
+              Wait
+            </Button>
+          ) : (
+            <Button
+              type="submit"
+              className="w-full my-4 bg-red-500 text-white rounded-xl hover:bg-blue-600"
+            >
+              Login
+            </Button>
+          )}
 
-          <Button
-            type="submit"
-            className="w-full my-4 bg-red-500 text-white rounded-xl hover:bg-blue-600"
-          >
-            Login
-          </Button>
           <span className="text-sm">
             Don't have an account?
             <Link to="/signup" className="text-blue-600">
