@@ -4,7 +4,7 @@ import "./App.css";
 import Signup from "./components/auth/Signup";
 import Login from "./components/auth/Login";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Home from "./components/ui/Home";
+import Home from "./components/Home";
 
 const appRoutes = createBrowserRouter([
   {

@@ -8,6 +8,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { USER_API_END_POINT } from "../utils/constant.js";
 import { toast } from "sonner";
 import axios from "axios";
+import { useSelector } from "react-redux";
+import { setLoading } from "../../redux/authSlice.js";
+import { useDispatch } from "react-redux";
+import { Loader2 } from "lucide-react";
+
 export default function Signup() {
   const [input, setInput] = useState({
     fullName: "",
@@ -17,7 +22,9 @@ export default function Signup() {
     role: "",
     file: "",
   });
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { loading } = useSelector((store) => store.auth);
   const changeEventHandler = (e) => {
     setInput({
       ...input,
@@ -44,6 +51,7 @@ export default function Signup() {
       formData.append("file", input.file);
     }
     try {
+      dispatch(setLoading(true));
       const res = await axios.post(`${USER_API_END_POINT}/register`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -52,11 +60,13 @@ export default function Signup() {
       });
       if (res.data.success) {
         navigate("/login");
-        toast.success("res.data.message");
+        toast.success(res.data.message);
       }
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message);
+    } finally {
+      dispatch(setLoading(false));
     }
   };
   return (
@@ -147,12 +157,20 @@ export default function Signup() {
               className="cursor-pointer rounded-xl border-2 border-blue-300"
             ></Input>
           </div>
-          <Button
-            type="submit"
-            className="w-full my-4 bg-red-500 text-white rounded-xl hover:bg-blue-600"
-          >
-            Signup
-          </Button>
+          {loading ? (
+            <Button className="w-full my-4 bg-red-500 text-white rounded-xl hover:bg-blue-600">
+              <Loader2 className="mr-2 h-4 w-4 animate-spin"></Loader2> Please
+              Wait
+            </Button>
+          ) : (
+            <Button
+              type="submit"
+              className="w-full my-4 bg-red-500 text-white rounded-xl hover:bg-blue-600"
+            >
+              Signup
+            </Button>
+          )}
+
           <span className="text-sm">
             Already have an account?
             <Link to="/login" className="text-blue-600">
