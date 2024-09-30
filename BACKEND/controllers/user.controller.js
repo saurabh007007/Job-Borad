@@ -55,7 +55,7 @@ export const login = async (req, res) => {
         .json({ message: "Invalid credentials", success: false });
     }
     //check role correct or not
-    if (!role === user.role) {
+    if (role !== user.role) {
       return res
         .status(400)
         .json({ message: "Does not exist with current role", success: false });
