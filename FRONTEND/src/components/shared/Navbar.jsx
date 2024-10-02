@@ -5,9 +5,10 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Avatar, AvatarImage } from "../ui/avatar";
 import { Button, buttonVariants } from "../ui/button.jsx";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function Navbar() {
-  const user = false;
+  const { user } = useSelector((store) => store.auth);
   return (
     <>
       <div className="bg-white ">
@@ -19,9 +20,16 @@ export default function Navbar() {
           </div>
           <div className="flex items-center gap-10">
             <ul className="flex items-center font-medium gap-5">
-              <li>Home</li>
-              <li>Jobs</li>
-              <li>Browse</li>
+              <li>
+                <Link to="/">Home </Link>
+              </li>
+
+              <li>
+                <Link to="/jobs">Jobs</Link>
+              </li>
+              <li>
+                <Link to="/browse">Browse </Link>
+              </li>
             </ul>
             {!user ? (
               <div className="flex items-center">

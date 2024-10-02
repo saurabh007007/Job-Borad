@@ -22,7 +22,7 @@ const LatestJobCards = ({ job }) => {
           {job?.position} Positions
         </Badge>
         <Badge className={"text-[#F83002] font-bold"} variant="ghost">
-          {job?.jobType}
+          {job?.jobType} Type of jOb
         </Badge>
         <Badge className={"text-[#7209b7] font-bold"} variant="ghost">
           {job?.salary}LPA
