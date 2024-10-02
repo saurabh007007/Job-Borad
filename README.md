@@ -32,12 +32,12 @@ Before you begin, ensure you have met the following requirements:
 ## Installation and Setup
 1. Clone the repository:
    ```
-   git clone https://github.com/yourusername/job-board-project.git
+      https://github.com/saurabh007007/Job-Borad.git
    ```
 
 2. Navigate to the project directory:
    ```
-   cd job-board-project
+   cd Job-Borad
    ```
 
 3. Install backend dependencies:
@@ -54,6 +54,7 @@ Before you begin, ensure you have met the following requirements:
 
 5. Create a `.env` file in the backend directory and add your MongoDB URI and JWT secret:
    ```
+   PORT=YOUR-PORT
    MONGODB_URI=your_mongodb_uri
    JWT_SECRET=your_jwt_secret
    ```
@@ -61,13 +62,13 @@ Before you begin, ensure you have met the following requirements:
 6. Start the backend server:
    ```
    cd ../backend
-   npm start
+   npm run dev
    ```
 
 7. In a new terminal, start the frontend development server:
    ```
    cd ../frontend
-   npm start
+   npm run dev
    ```
 
 ## Usage
@@ -77,16 +78,6 @@ After starting both the backend and frontend servers, you can access the applica
 2. Log in to your account
 3. Employers can post new job listings from their dashboard
 4. Job seekers can search for jobs and submit applications
-
-## API Endpoints
-- POST /api/auth/signup: Create a new user account
-- POST /api/auth/login: Authenticate a user
-- GET /api/jobs: Retrieve all job listings
-- POST /api/jobs: Create a new job listing (employers only)
-- GET /api/jobs/:id: Retrieve a specific job listing
-- PUT /api/jobs/:id: Update a job listing (employers only)
-- DELETE /api/jobs/:id: Delete a job listing (employers only)
-- POST /api/applications: Submit a job application (job seekers only)
 
 ## Contributing
 Contributions to the Job Board project are welcome. Please follow these steps:
