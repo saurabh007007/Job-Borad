@@ -1,48 +1,40 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../shared/Navbar";
-import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
-import { Button, buttonVariants } from "../ui/button";
+import { Input } from "../ui/input";
+import { RadioGroup } from "../ui/radio-group";
+import { Button } from "../ui/button";
 import { Link, useNavigate } from "react-router-dom";
-import { USER_API_END_POINT } from "../utils/constant.js";
-import { toast } from "sonner";
 import axios from "axios";
-import { useSelector } from "react-redux";
-import { setLoading } from "../../redux/authSlice.js";
-import { useDispatch } from "react-redux";
+import { USER_API_END_POINT } from "@/utils/constant";
+import { toast } from "sonner";
+import { useDispatch, useSelector } from "react-redux";
+import { setLoading } from "@/redux/authSlice";
 import { Loader2 } from "lucide-react";
 
-export default function Signup() {
+const Signup = () => {
   const [input, setInput] = useState({
-    fullName: "",
+    fullname: "",
     email: "",
     phoneNumber: "",
     password: "",
     role: "",
     file: "",
   });
+  const { loading, user } = useSelector((store) => store.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { loading } = useSelector((store) => store.auth);
+
   const changeEventHandler = (e) => {
-    setInput({
-      ...input,
-      [e.target.name]: e.target.value,
-    });
+    setInput({ ...input, [e.target.name]: e.target.value });
   };
-
-  const chnageFileHandler = (e) => {
-    setInput({
-      ...input,
-      file: e.target.files?.[0],
-    });
+  const changeFileHandler = (e) => {
+    setInput({ ...input, file: e.target.files?.[0] });
   };
-
   const submitHandler = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("fullName", input.fullName);
+    const formData = new FormData(); //formdata object
+    formData.append("fullname", input.fullname);
     formData.append("email", input.email);
     formData.append("phoneNumber", input.phoneNumber);
     formData.append("password", input.password);
@@ -50,12 +42,11 @@ export default function Signup() {
     if (input.file) {
       formData.append("file", input.file);
     }
+
     try {
       dispatch(setLoading(true));
       const res = await axios.post(`${USER_API_END_POINT}/register`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+        headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true,
       });
       if (res.data.success) {
@@ -69,60 +60,62 @@ export default function Signup() {
       dispatch(setLoading(false));
     }
   };
+
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, []);
   return (
     <div>
       <Navbar />
-      <div className="flex  items-center justify-center max-w-7xl mx-auto">
+      <div className="flex items-center justify-center max-w-7xl mx-auto">
         <form
           onSubmit={submitHandler}
-          className="w-1/2 border border-grey-200 rounded-md p-4 my-10"
+          className="w-1/2 border border-gray-200 rounded-md p-4 my-10"
         >
-          <h1 className="font-bold text-xl mb-5">Signup</h1>
+          <h1 className="font-bold text-xl mb-5">Sign Up</h1>
           <div className="my-2">
-            <Label className="font-semibold"> Full Name</Label>
+            <Label>Full Name</Label>
             <Input
               type="text"
-              placeholder="Enter fullname"
-              value={input.fullName}
-              name="fullName"
+              value={input.fullname}
+              name="fullname"
               onChange={changeEventHandler}
-              className="rounded-xl border-2 border-blue-300"
-            ></Input>
+              placeholder="saurabh"
+            />
           </div>
           <div className="my-2">
-            <Label className="font-semibold">Email</Label>
+            <Label>Email</Label>
             <Input
               type="email"
-              placeholder="Enter email"
               value={input.email}
               name="email"
               onChange={changeEventHandler}
-              className="rounded-xl border-2 border-blue-300"
-            ></Input>
+              placeholder="saurabh@gmail.com"
+            />
           </div>
           <div className="my-2">
-            <Label className="font-semibold"> Phone Number</Label>
+            <Label>Phone Number</Label>
             <Input
               type="text"
-              placeholder="Enter Phone Number"
               value={input.phoneNumber}
               name="phoneNumber"
               onChange={changeEventHandler}
-              className="rounded-xl border-2 border-blue-300"
-            ></Input>
+              placeholder="8080808080"
+            />
           </div>
           <div className="my-2">
-            <Label className="font-semibold"> Password</Label>
+            <Label>Password</Label>
             <Input
               type="password"
-              placeholder="Enter password"
               value={input.password}
               name="password"
               onChange={changeEventHandler}
-              className="rounded-xl border-2 border-blue-300"
-            ></Input>
+              placeholder="saurabh"
+            />
           </div>
-          <div className="flex items-center">
+          <div className="flex items-center justify-between">
             <RadioGroup className="flex items-center gap-4 my-5">
               <div className="flex items-center space-x-2">
                 <Input
@@ -147,32 +140,28 @@ export default function Signup() {
                 <Label htmlFor="r2">Recruiter</Label>
               </div>
             </RadioGroup>
-          </div>
-          <div className="flex items-center gap-2">
-            <Label>Profile</Label>
-            <Input
-              accept="image/*"
-              type="file"
-              onChange={chnageFileHandler}
-              className="cursor-pointer rounded-xl border-2 border-blue-300"
-            ></Input>
+            <div className="flex items-center gap-2">
+              <Label>Profile</Label>
+              <Input
+                accept="image/*"
+                type="file"
+                onChange={changeFileHandler}
+                className="cursor-pointer"
+              />
+            </div>
           </div>
           {loading ? (
-            <Button className="w-full my-4 bg-red-500 text-white rounded-xl hover:bg-blue-600">
-              <Loader2 className="mr-2 h-4 w-4 animate-spin"></Loader2> Please
-              Wait
+            <Button className="w-full my-4">
+              {" "}
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please wait{" "}
             </Button>
           ) : (
-            <Button
-              type="submit"
-              className="w-full my-4 bg-red-500 text-white rounded-xl hover:bg-blue-600"
-            >
+            <Button type="submit" className="w-full my-4">
               Signup
             </Button>
           )}
-
           <span className="text-sm">
-            Already have an account?
+            Already have an account?{" "}
             <Link to="/login" className="text-blue-600">
               Login
             </Link>
@@ -181,4 +170,6 @@ export default function Signup() {
       </div>
     </div>
   );
-}
+};
+
+export default Signup;
