@@ -21,7 +21,7 @@ const Footer = () => {
               </svg>
             </a>
             <a
-              href="https://twitter.com"
+              href="https://x.com/Saurabh00700714"
               className="hover:text-gray-400"
               aria-label="Twitter"
             >
@@ -30,7 +30,7 @@ const Footer = () => {
               </svg>
             </a>
             <a
-              href="https://linkedin.com"
+              href="https://www.linkedin.com/in/saurabh-yadav-596a5b250/"
               className="hover:text-gray-400"
               aria-label="LinkedIn"
             >
