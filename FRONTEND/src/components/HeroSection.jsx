@@ -22,10 +22,10 @@ const HeroSection = () => {
           No. 1 Job Hunt Website
         </span>
         <h1 className="text-5xl font-bold">
-          Search, Apply & <br /> Get Your{" "}
+          Search, Apply & <br /> Get Your
           <span className="text-[#6A38C2]">Dream Jobs</span>
         </h1>
-        <p>Land to your first job as a fresher with JOB BOARD</p>
+        <p>Land to your first job as a fresher with us !</p>
         <div className="flex w-[40%] shadow-lg border border-gray-200 pl-3 rounded-full items-center gap-4 mx-auto">
           <input
             type="text"
