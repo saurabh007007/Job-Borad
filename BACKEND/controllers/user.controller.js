@@ -18,7 +18,7 @@ export const register = async (req, res) => {
         const fileUri = getDataUri(file);
         const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
 
-        const user = await User.findOne({ email });
+        let user = await User.findOne({ email });
         if (user) {
             return res.status(400).json({
                 message: 'User already exist with this email.',
@@ -27,7 +27,7 @@ export const register = async (req, res) => {
         }
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        await User.create({
+        let newUser = await User.create({
             fullname,
             email,
             phoneNumber,
@@ -37,11 +37,25 @@ export const register = async (req, res) => {
                 profilePhoto:cloudResponse.secure_url,
             }
         });
+        const tokenData = {
+            userId: newUser._id
+        }
+        const token = jwt.sign(tokenData, process.env.SECRET_KEY, { expiresIn: '1d' });
 
-        return res.status(201).json({
-            message: "Account created successfully.",
+        user = {
+            _id: newUser._id,
+            fullname: newUser.fullname,
+            email: newUser.email,
+            phoneNumber: newUser.phoneNumber,
+            role: newUser.role,
+            profile: newUser.profile
+        }
+
+        return res.status(200).cookie("token", token, { maxAge: 1 * 24 * 60 * 60 * 1000, httpsOnly: true, sameSite: 'strict' }).json({
+            message: `Welcome ${user.fullname}`,
+            user,
             success: true
-        });
+        })
     } catch (error) {
         console.log(error);
     }
