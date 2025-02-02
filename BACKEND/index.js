@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 const corsOptions = {
-  origin: ["http://localhost:5173", "https://job-borad.vercel.app"],
+  origin: ["http://localhost:5173", "https://job-borad.vercel.app","http://64.227.130.247:5173"],
   credentials: true,
 };
 
