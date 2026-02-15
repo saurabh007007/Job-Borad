@@ -7,12 +7,14 @@
 // export const COMPANY_API_END_POINT =
 //   "https://job-borad-3ose.onrender.com/api/v1/company";
 
-export const USER_API_END_POINT = "http://64.227.130.247:8080/api/v1/user";
-export const JOB_API_END_POINT = "http://64.227.130.247:8080/api/v1/job";
+export const USER_API_END_POINT =
+  "https://job-borad-3ose.onrender.com/api/v1/user";
+export const JOB_API_END_POINT =
+  "https://job-borad-3ose.onrender.com/api/v1/job";
 export const APPLICATION_API_END_POINT =
-  "http://64.227.130.247:8080/api/v1/application";
+  "https://job-borad-3ose.onrender.com/api/v1/application";
 export const COMPANY_API_END_POINT =
-  "http://64.227.130.247:8080/api/v1/company";
+  "https://job-borad-3ose.onrender.com/api/v1/company";
 
 // export const USER_API_END_POINT = "http://localhost:8080/api/v1/user";
 // export const JOB_API_END_POINT = "http://localhost:8080/api/v1/job";
