@@ -33,6 +33,24 @@ const Signup = () => {
   };
   const submitHandler = async (e) => {
     e.preventDefault();
+    if (!input.fullname.trim()) {
+      return toast.error("Full name is required");
+    }
+    if (!input.email.trim()) {
+      return toast.error("Email is required");
+    }
+    if (!input.phoneNumber.trim()) {
+      return toast.error("Phone number is required");
+    }
+    if (!input.password.trim()) {
+      return toast.error("Password is required");
+    }
+    if (!input.role) {
+      return toast.error("Please select a role");
+    }
+    if (!input.file) {
+      return toast.error("Profile photo is required");
+    }
     const formData = new FormData(); //formdata object
     formData.append("fullname", input.fullname);
     formData.append("email", input.email);

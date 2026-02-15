@@ -28,6 +28,15 @@ const Login = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+    if (!input.email.trim()) {
+      return toast.error("Email is required");
+    }
+    if (!input.password.trim()) {
+      return toast.error("Password is required");
+    }
+    if (!input.role) {
+      return toast.error("Please select a role");
+    }
     try {
       dispatch(setLoading(true));
       const res = await axios.post(`${USER_API_END_POINT}/login`, input, {
